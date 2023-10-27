@@ -1,46 +1,35 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
     vector<int> largestValues(TreeNode* root) {
-        vector<int> result;
-        
-        if (!root) {
-            return result;  
+        if (root == nullptr) {
+            return vector<int>{};
         }
         
-        queue<TreeNode*> q;
-        q.push(root);
+        vector<int> ans;
+        queue<TreeNode*> queue;
+        queue.push(root);
         
-        while (!q.empty()) {
-            int rowMax = INT_MIN;  
-            int levelSize = q.size();  
+        while (!queue.empty()) {
+            int currentLength = queue.size();
+            int currMax = INT_MIN;
             
-            for (int i = 0; i < levelSize; i++) {
-                TreeNode* node = q.front();
-                q.pop();
-                rowMax = max(rowMax, node->val);  
+            for (int i = 0; i < currentLength; i++) {
+                TreeNode* node = queue.front();
+                queue.pop();
+                currMax = max(currMax, node->val);
                 
                 if (node->left) {
-                    q.push(node->left);
+                    queue.push(node->left);
                 }
+                
                 if (node->right) {
-                    q.push(node->right);
+                    queue.push(node->right);
                 }
             }
             
-            result.push_back(rowMax);  
+            ans.push_back(currMax);
         }
         
-        return result;
+        return ans;
     }
 };
